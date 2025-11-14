@@ -151,45 +151,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Create notification element
         const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
+        notification.classList.add('notification', type);
         notification.textContent = message;
-        
-        // Add notification styles
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 10000;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            max-width: 300px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        `;
-        
-        // Set background color based on type
-        const colors = {
-            success: '#27ae60',
-            error: '#e74c3c',
-            info: '#3498db'
-        };
-        
-        notification.style.backgroundColor = colors[type] || colors.info;
         
         // Add to page
         document.body.appendChild(notification);
         
         // Animate in
         setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
+            notification.classList.add('show');
         }, 100);
         
         // Auto remove after 5 seconds
         setTimeout(() => {
-            notification.style.transform = 'translateX(400px)';
+            notification.classList.remove('show');
             setTimeout(() => {
                 notification.remove();
             }, 300);
@@ -203,25 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollButton.className = 'scroll-to-top';
         scrollButton.setAttribute('aria-label', 'Scroll to top');
         
-        scrollButton.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #3498db;
-            color: white;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        `;
-        
         scrollButton.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -234,11 +190,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show/hide button based on scroll position
         function toggleScrollButton() {
             if (window.scrollY > 300) {
-                scrollButton.style.opacity = '1';
-                scrollButton.style.visibility = 'visible';
+                scrollButton.classList.add('visible');
             } else {
-                scrollButton.style.opacity = '0';
-                scrollButton.style.visibility = 'hidden';
+                scrollButton.classList.remove('visible');
             }
         }
         
@@ -262,41 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== INITIALIZE ALL FUNCTIONS =====
     function init() {
-        // Add CSS for scroll animations
-        const style = document.createElement('style');
-        style.textContent = `
-            .animate-in {
-                animation: slideInUp 0.6s ease forwards;
-            }
-            
-            @keyframes slideInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            .nav-links a.active {
-                color: #3498db;
-                position: relative;
-            }
-            
-            .nav-links a.active::after {
-                content: '';
-                position: absolute;
-                bottom: -5px;
-                left: 0;
-                width: 100%;
-                height: 2px;
-                background: #3498db;
-            }
-        `;
-        document.head.appendChild(style);
-        
         // Initialize all features
         typeWriter();
         createScrollToTopButton();
